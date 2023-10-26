@@ -12,9 +12,9 @@
 	divider: .asciiz "================\n"
 
 	#texts and instructions
-	introduction: .asciiz "\nBe the first to add up the numbers to 100!\nYou can only add a value from 1 to 10 per turn.\n\n"
+	introduction: .asciiz "\nBe the first to add up the sum to 100!\nYou can only add a value from 1 to 10 per turn.\n\n"
 	instructInput: .asciiz "\nEnter an integer from 1 to 10:\n"
-	currentSum: .asciiz "\nCurrent Sum: "
+	currentSum: .asciiz "Current Sum: "
 	computerSum: .asciiz "\nThe sum is now "
 	computerSum1: .asciiz ", to which the computer adds: "
 	tryagainmessage: .asciiz "\nOut of range! You must enter an integer in the range of 1 through 10.\n"
@@ -32,9 +32,9 @@
 #Clears the screen
 clearscreen:
 	#clears screen using .byte hex commands
-	la      $a0,clear
-    li      $v0,4
-    syscall
+	la $a0,clear
+	li $v0,4
+	syscall
 
 	#clear console through a series of backslashes
 
@@ -207,6 +207,11 @@ findComputer:	#parameters: ($a0) returns: ($v0)
     jr $ra              #return (Copy $ra to PC)	
 
 userVictory:
+	#prints backslash for formatting
+	la $a0, backslash
+	li $v0, 4
+	syscall
+
 	#prints divider for formatting
 	la $a0, divider
 	li $v0, 4
@@ -216,7 +221,14 @@ userVictory:
 	li $v0, 4
 	syscall
 
+	j exit
+
 computerVictory:
+	#prints backslash for formatting
+	la $a0, backslash
+	li $v0, 4
+	syscall
+
 	#prints divider for formatting
 	la $a0, divider
 	li $v0, 4
@@ -225,3 +237,5 @@ computerVictory:
 	la $a0, defeat
 	li $v0, 4
 	syscall
+
+exit:
